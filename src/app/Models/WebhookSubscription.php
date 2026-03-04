@@ -11,6 +11,11 @@ class WebhookSubscription extends Model
 {
     use HasFactory;
 
+    public const TOPICS = [
+        'order.created'      => 'Order Created',
+        'order.paid'         => 'Order Paid'
+    ];
+
     /**
      * @var list<string>
      */

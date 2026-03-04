@@ -2,6 +2,8 @@
 
 namespace App\Services\Store;
 
+use App\Events\OrderCreatedEvent;
+use App\Events\OrderPaidEvent;
 use App\Models\Checkout;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -34,6 +36,8 @@ class CompleteCheckoutService
 
             $order = $this->createOrder($checkout);
 
+            event(new OrderCreatedEvent($order));
+
             $this->snapshotItems($checkout, $order);
 
             $this->convertReservationsToSales($checkout, $order);
@@ -41,6 +45,8 @@ class CompleteCheckoutService
             $checkout->markCompleted($order);
 
             $order->markPaid();
+
+            event(new OrderPaidEvent($order));
 
             return $order;
         });

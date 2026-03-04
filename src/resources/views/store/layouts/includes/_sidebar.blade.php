@@ -31,5 +31,9 @@
        <a href="{{ route('store.orders.index') }}" class="block px-3 py-2 rounded hover:bg-gray-100 @if (request()->routeIs('store.orders.*')) bg-gray-100 font-semibold @endif">
            Orders
        </a>
+
+       <a href="{{ route('store.webhook_subscriptions.index') }}" class="block px-3 py-2 rounded hover:bg-gray-100 @if (request()->routeIs('store.webhook_subscriptions.*')) bg-gray-100 font-semibold @endif">
+           Webhooks
+       </a>
    </nav>
 </aside>

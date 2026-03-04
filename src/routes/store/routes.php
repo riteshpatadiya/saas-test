@@ -30,5 +30,8 @@ Route::name('store.')
 
             // Orders
             require __DIR__ . '/orders/routes.php';
+
+            // Webhook Subscriptions
+            require __DIR__ . '/webhook-subscriptions/routes.php';
         });
     });
