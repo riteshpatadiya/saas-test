@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Store\AuditLogs\IndexController;
+use App\Http\Controllers\Admin\AuditLogs\IndexController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('audit-logs')

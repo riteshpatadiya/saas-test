@@ -30,5 +30,8 @@ Route::name('admin.')
 
             // Inventories
             require __DIR__ . '/inventories/routes.php';
+
+            // Audit Logs
+            require __DIR__ . '/audit-logs/routes.php';
         });
     });

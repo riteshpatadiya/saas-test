@@ -31,5 +31,9 @@
         <a href="{{ route('admin.inventories.index') }}" class="block px-3 py-2 rounded hover:bg-gray-100 @if (request()->routeIs('admin.inventories.*')) bg-gray-100 font-semibold @endif">
         Inventory
         </a>
+
+        <a href="{{ route('admin.audit_logs.index') }}" class="block px-3 py-2 rounded hover:bg-gray-100 @if (request()->routeIs('admin.audit_logs.*')) bg-gray-100 font-semibold @endif">
+        Audit Logs
+        </a>
     </nav>
  </aside>

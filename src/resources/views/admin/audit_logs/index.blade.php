@@ -1,4 +1,4 @@
-@extends('store.layouts.default')
+@extends('admin.layouts.default')
 
 @section('title', 'Audit Logs')
 
@@ -8,8 +8,18 @@
 <div class="container mx-auto">
 
     {{-- Filters --}}
-    <form method="GET" action="{{ route('store.audit_logs.index') }}" class="bg-white rounded shadow p-4 mb-6">
+    <form method="GET" action="{{ route('admin.audit_logs.index') }}" class="bg-white rounded shadow p-4 mb-6">
         <div class="flex flex-wrap gap-4 items-end">
+            <div class="flex-1 min-w-[180px]">
+                <label for="store_id" class="block text-xs font-medium text-gray-600 mb-1 uppercase tracking-wide">Store</label>
+                <select id="store_id" name="store_id" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">All Stores</option>
+                    @foreach($stores as $store)
+                        <option value="{{ $store->id }}" @selected(request('store_id') == $store->id)>{{ $store->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="flex-1 min-w-[180px]">
                 <label for="action" class="block text-xs font-medium text-gray-600 mb-1 uppercase tracking-wide">Action</label>
                 <select id="action" name="action" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -46,8 +56,8 @@
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition">
                     Filter
                 </button>
-                @if(request()->hasAny(['action', 'date_from', 'date_to']))
-                    <a href="{{ route('store.audit_logs.index') }}" class="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded hover:bg-gray-200 transition">
+                @if(request()->hasAny(['store_id', 'action', 'date_from', 'date_to']))
+                    <a href="{{ route('admin.audit_logs.index') }}" class="px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded hover:bg-gray-200 transition">
                         Clear
                     </a>
                 @endif
@@ -61,6 +71,7 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date / Time</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entity</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actor</th>
@@ -72,6 +83,9 @@
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $log->created_at->format('Y-m-d H:i:s') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ $log->store?->name ?? '—' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             @php
@@ -117,7 +131,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-10 text-center text-gray-400">
+                        <td colspan="6" class="px-6 py-10 text-center text-gray-400">
                             No audit log entries found.
                         </td>
                     </tr>
