@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Store\WebhookSubscriptions;
 
+use App\Events\WebhookSubscriptionCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Store\WebhookSubscriptions\StoreRequest;
 use App\Models\WebhookSubscription;
@@ -16,7 +17,9 @@ class StoreController extends Controller
         $requestData['secret']   = Str::random(32);
         $requestData['is_active'] = true;
 
-        WebhookSubscription::create($requestData);
+        $subscription = WebhookSubscription::create($requestData);
+
+        event(new WebhookSubscriptionCreatedEvent($subscription));
 
         flash('Webhook subscription created successfully.')->success();
 

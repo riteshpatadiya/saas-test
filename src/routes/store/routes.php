@@ -33,5 +33,8 @@ Route::name('store.')
 
             // Webhook Subscriptions
             require __DIR__ . '/webhook-subscriptions/routes.php';
+
+            // Audit Logs
+            require __DIR__ . '/audit-logs/routes.php';
         });
     });

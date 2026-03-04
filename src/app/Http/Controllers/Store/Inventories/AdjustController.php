@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Store\Inventories;
 
+use App\Events\InventoryAdjustedEvent;
 use App\Http\Controllers\Controller;
-
-// Models
+use App\Http\Requests\Store\Inventories\AdjustRequest;
 use App\Models\Inventory;
 use App\Models\ProductVariant;
-
-// Requests
-use App\Http\Requests\Store\Inventories\AdjustRequest;
 
 class AdjustController extends Controller
 {
@@ -43,6 +40,14 @@ class AdjustController extends Controller
                 'quantity'           => $delta,
                 'note'               => $data['note'] ?? null,
             ]);
+
+            event(new InventoryAdjustedEvent(
+                variant: $variant,
+                mode: $data['mode'],
+                delta: $delta,
+                storeLocationId: $data['store_location_id'],
+                note: $data['note'] ?? null,
+            ));
         }
 
         flash('Inventory updated successfully')->success();
@@ -50,4 +55,3 @@ class AdjustController extends Controller
         return redirect()->route('store.inventories.show', ['variant' => $variant->id]);
     }
 }
-

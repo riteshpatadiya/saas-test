@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Store\WebhookSubscriptions;
 
+use App\Events\WebhookSubscriptionDeletedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\WebhookSubscription;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +12,8 @@ class DeleteController extends Controller
     public function __invoke(WebhookSubscription $webhookSubscription)
     {
         abort_if($webhookSubscription->store_id !== app('currentStore')->id, Response::HTTP_NOT_FOUND);
+
+        event(new WebhookSubscriptionDeletedEvent($webhookSubscription));
 
         $webhookSubscription->delete();
 

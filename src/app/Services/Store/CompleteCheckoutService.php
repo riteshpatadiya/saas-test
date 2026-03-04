@@ -2,6 +2,7 @@
 
 namespace App\Services\Store;
 
+use App\Events\CheckoutCompletedEvent;
 use App\Events\OrderCreatedEvent;
 use App\Events\OrderPaidEvent;
 use App\Models\Checkout;
@@ -47,6 +48,7 @@ class CompleteCheckoutService
             $order->markPaid();
 
             event(new OrderPaidEvent($order));
+            event(new CheckoutCompletedEvent($checkout, $order));
 
             return $order;
         });

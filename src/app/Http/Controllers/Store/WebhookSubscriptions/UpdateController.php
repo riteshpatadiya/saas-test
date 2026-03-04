@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Store\WebhookSubscriptions;
 
+use App\Events\WebhookSubscriptionUpdatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Store\WebhookSubscriptions\UpdateRequest;
 use App\Models\WebhookSubscription;
@@ -17,6 +18,8 @@ class UpdateController extends Controller
         $data['is_active'] = $request->boolean('is_active');
 
         $webhookSubscription->update($data);
+
+        event(new WebhookSubscriptionUpdatedEvent($webhookSubscription, $data));
 
         flash('Webhook subscription updated successfully.')->success();
 
